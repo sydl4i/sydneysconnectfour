@@ -115,13 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
     //   }
 
     function removeTaken() {
+        //there has to be a better way to do this... ask someone :D
         for (let i = 0; i < squares.length; i++){ 
             if (squares[i].classList.contains('taken')){
-                squares[i].style.border = null;
+            } else {
+                squares[i].style.setProperty('border', '1px solid')
             }
     }}
 
-    //removeTaken()
+    removeTaken()
 
     function checkBoard() {
         for (let y = 0; y < winningArrays.length; y++) {
@@ -148,6 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.innerHTML = 'Player Two Winsss woooooo yeahhhhhh'
             }
         }
+    }
+
+    function animatePlayer(player) {
+        
     }
 
 

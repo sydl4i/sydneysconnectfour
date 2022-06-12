@@ -1,13 +1,12 @@
 .grid {
     border: 1px solid;
-    height: 240px;
-    width: 288px;
+    height: 252px;
+    width: 294px;
     display: flex;
     flex-wrap: wrap;
 }
 
 .grid div {
-    border: 1px solid;
     height: 40px;
     width: 40px;
     /* border: 1px solid; */
