@@ -152,8 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function animatePlayer(player) {
-        
+    function animatePlayer(counter, player) {
+        //continue figuring out how to animate this
+        if (counter > 0){
+            squares[i].classList.remove(player)
+            squares[i-counter].classList.add(player)
+        }
     }
 
 
@@ -164,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentPlayer == 1) {
                     squares[i].classList.add('taken')
                     squares[i].classList.add('player-one')
+                    let counter = Math.floor(i/7)
+                    animatePlayer(counter, 'player-one')
                     currentPlayer = 2
                     displayCurrentPlayer.innerHTML = currentPlayer
                 } else if (currentPlayer == 2) {
