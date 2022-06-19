@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    let intervalId
+    //let intervalId
 
     //use setTimeout?
 
@@ -179,10 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawPlayer(counter, player, i) {
         //continue figuring out how to animate this
         for (;counter > 0; counter--) {
-            squares[i].classList.remove(player)
-            squares[i-counter].classList.add(player)
+            //squares[i].classList.remove(player)
+            squares[i-(counter*7)].classList.add(player)
         }
-        // if (counter > 0){
+        // if (counter > 0)
         //     console.log(counter)
         //     counter--
         // }
@@ -195,8 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    //squares[i].style.setProperty('border', '1px red solid')
-
     removeTaken()
     addGuides()
 
@@ -208,7 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     removeGuides()
                     squares[i].classList.add('taken')
                     squares[i].classList.add('player-one')
+                    let counter = Math.floor(i/7)
+                    //drawPlayer(counter, "player-one", i)
                     addGuides()
+                    drawPlayer()
                     currentPlayer = 2
                     displayCurrentPlayer.innerHTML = currentPlayer
                 } else if (currentPlayer == 2) {
