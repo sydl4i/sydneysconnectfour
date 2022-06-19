@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //   }
 
     function removeTaken() {
-        //there has to be a better way to do this... ask someone :D
+        //there has to be a better way to do this... ask someone : use !
         for (let i = 0; i < squares.length; i++){ 
             if (squares[i].classList.contains('taken')){
             } else {
@@ -123,7 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     }}
 
-    removeTaken()
+    function addGuides() {
+        //add borders to the divs you can actually put a thing into - define each square w 2d array, identify what row and column - nested array
+        //create an array w/
+        //make a function that assigns each grid div (square) id of row-column - everytime access specific cell .documentgetElementbyId row-column
+        //iterate w documentqueryselector in each iterate over the boxes inside of those iterate each row to get each individual square 2d push all elements in 2d array
+        //use square.length - 7
+        for (let i = 0; i < squares.length - 7; i++){ 
+            if (squares[i+7].classList.contains('taken') &&
+                !squares[i].classList.contains('player-one') &&
+                !squares[i].classList.contains('player-two')){
+                squares[i].style.setProperty('border', '1px red solid')
+            }
+    }}
+
+    function removeGuides() {
+        for (let i = 0; i < squares.length - 7; i++){ 
+            if (squares[i+7].classList.contains('taken')){
+                squares[i].style.setProperty('border', '1px solid')
+            }
+    }}
 
     function checkBoard() {
         for (let y = 0; y < winningArrays.length; y++) {
@@ -152,30 +171,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function animatePlayer(counter, player) {
+    let intervalId
+
+    //use setTimeout?
+
+    // use this later IMPORTANT
+    function drawPlayer(counter, player, i) {
         //continue figuring out how to animate this
-        if (counter > 0){
+        for (;counter > 0; counter--) {
             squares[i].classList.remove(player)
             squares[i-counter].classList.add(player)
         }
+        // if (counter > 0){
+        //     console.log(counter)
+        //     counter--
+        // }
     }
 
+    //use this one later IMPORTANT
+    function animatePlayer() {
+        if (!intervalId) {
+            intervalId = setInterval (drawPlayer, 1000)
+        }
+    }
+
+    //squares[i].style.setProperty('border', '1px red solid')
+
+    removeTaken()
+    addGuides()
 
     for (let i = 0; i < squares.length; i++){
         squares[i].onclick = () => {
             //if the square below your current square is taken, you can go on top of it
             if (squares[i+7].classList.contains('taken')) {
                 if (currentPlayer == 1) {
+                    removeGuides()
                     squares[i].classList.add('taken')
                     squares[i].classList.add('player-one')
-                    let counter = Math.floor(i/7)
-                    animatePlayer(counter, 'player-one')
+                    addGuides()
                     currentPlayer = 2
                     displayCurrentPlayer.innerHTML = currentPlayer
                 } else if (currentPlayer == 2) {
+                    removeGuides()
                     squares[i].classList.add('taken')
                     squares[i].classList.add('player-two')
                     currentPlayer = 1
+                    addGuides()
                     displayCurrentPlayer.innerHTML = currentPlayer
                 } else alert('you cant go here nananana booboo')
 
