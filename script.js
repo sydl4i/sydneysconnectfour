@@ -173,27 +173,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //let intervalId
 
-    //use setTimeout?
+    // // use this later IMPORTANT
+    // function drawPlayer(counter, player, i) {
+    //     //continue figuring out how to animate this
+    //     for (;counter > 0; counter--) {
+    //         //squares[i].classList.remove(player)
+    //         squares[i-(counter*7)].classList.add(player)
+    //     }
+    //     // if (counter > 0)
+    //     //     console.log(counter)
+    //     //     counter--
+    //     // }
+    // }
 
-    // use this later IMPORTANT
-    function drawPlayer(counter, player, i) {
-        //continue figuring out how to animate this
-        for (;counter > 0; counter--) {
-            //squares[i].classList.remove(player)
-            squares[i-(counter*7)].classList.add(player)
-        }
-        // if (counter > 0)
-        //     console.log(counter)
-        //     counter--
-        // }
-    }
-
-    //use this one later IMPORTANT
-    function animatePlayer() {
-        if (!intervalId) {
-            intervalId = setInterval (drawPlayer, 1000)
-        }
-    }
+    // function drawPlayer(counter, player, i) {
+    //     let interval
+    //     /* ... logic ... */
+    //     squares[i-(counter*7)].classList.add(player)
+    //     if(counter>0) counter--;
+    //     else clearInterval(interval);
+    // }
 
     removeTaken()
     addGuides()
@@ -202,14 +201,24 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[i].onclick = () => {
             //if the square below your current square is taken, you can go on top of it
             if (squares[i+7].classList.contains('taken')) {
+                counter = Math.floor(i/7)
                 if (currentPlayer == 1) {
                     removeGuides()
+                    var interval
                     squares[i].classList.add('taken')
-                    squares[i].classList.add('player-one')
-                    let counter = Math.floor(i/7)
-                    //drawPlayer(counter, "player-one", i)
+                    function drawPlayer(player, i) {
+                        setInterval(function() {
+                            squares[i].classList.remove(player)
+                            squares[i-(counter*7)].classList.add(player)
+                            console.log(counter)
+                            if(counter>0) counter--;
+                            else clearInterval(interval);
+                        }, 200);
+                    }
                     addGuides()
-                    drawPlayer()
+                    setTimeout(drawPlayer("player-one", i), 5000)
+                    //squares[i].classList.add('player-one')
+                    addGuides()
                     currentPlayer = 2
                     displayCurrentPlayer.innerHTML = currentPlayer
                 } else if (currentPlayer == 2) {
@@ -223,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } else alert('you cant go here nananana booboo')
             checkBoard()
-        }
+        } 
     }
 
 })
