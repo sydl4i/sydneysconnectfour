@@ -22,7 +22,7 @@ h2 {
 .grid div {
     height: 40px;
     width: 40px;
-    pointer-events: none;
+    pointer-events: auto;
     /* border: 1px solid; */
 }
 

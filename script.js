@@ -76,44 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         [13, 20, 27, 34],
       ]
 
-    // function checkCandidates(index, cssName, callbackId) {
-    //     // Look for the three adjacent cells, as defined by callbackId().
-    //     for (let i = 1; i <= 3; i++) {
-    //       let id = callbackId(index, i);
-    //       if (!squares[id].classList.contains(cssName)) {
-    //         return false;
-    //       }
-    //     }
-    //     return true;
-    //   }
-    
-    // function checkWinner(index, player) {
-    //     const cssName = (player == 2) ? 'player-two' : 'player-one';
-    //     const cellPos = (index + 1);
-    //     const cellRow = Math.ceil(cellPos / 7);
-    //     const cellCol = Math.ceil(cellPos - ((cellRow - 1) * 7));
-    
-    //     // Check bottom cells (after, in the same column).
-    //     if (cellRow < 4 && checkCandidates(index, cssName, (index, i) => index + (7 * i))) {
-    //       return true;
-    //     }
-    //     // Check left cells (before, in the same row).
-    //     if (cellCol >= 4 && checkCandidates(index, cssName, (index, i) => index - i)) {
-    //       return true;
-    //     }
-    //     //  Check top cells (before, in the same column).
-    //     if (cellRow >= 4 && checkCandidates(index, cssName, (index, i) => index - (7 * i))) {
-    //       return true;
-    //     }
-    //     //  Check right cells (after, in the same column).
-    //     if (cellCol <= 4 && checkCandidates(index, cssName, (index, i) => index + i)) {
-    //       return true;
-    //     }
-    
-    //     // No winner yet!
-    //     return false;
-    //   }
-
     function removeTaken() {
         //there has to be a better way to do this... ask someone : use !
         for (let i = 0; i < squares.length; i++){ 
@@ -199,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let i = 0; i < squares.length; i++){
         squares[i].onclick = () => {
+            squares[i].style.setProperty('pointer-events', 'none')
             //if the square below your current square is taken, you can go on top of it
             if (squares[i+7].classList.contains('taken')) {
                 rowCounter = Math.floor(i/7)
@@ -210,7 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         removeCounter++
                         if(removeCounter > 1) squares[i-((rowCounter+1)*7)].classList.remove(player);
                         if(rowCounter>0) rowCounter--;
-                        else clearInterval(interval);
+                        else {
+                            clearInterval(interval);
+                            squares[i].style.setProperty('pointer-events', 'auto')
+                        }
                     }, 150);
                 }
                 if (currentPlayer == 1) {
