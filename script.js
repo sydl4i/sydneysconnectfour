@@ -131,12 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     removeTaken()
     addGuides()
     
     for (let i = 0; i < squares.length; i++){
         squares[i].onclick = () => {
+            //disable user input until the piece is placed
             disableSquareInput()
             squares[i].style.setProperty('pointer-events', 'none')
             //if the square below your current square is taken, you can go on top of it
@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 rowCounter = Math.floor(i/7)
                 removeCounter = 0
                 function drawPlayer(player, i) {
+                    //create an animation for when a piece is placed
                     interval = setInterval(function() {
                         squares[i-(rowCounter*7)].classList.add(player)
                         squares[i].classList.add("taken")
@@ -159,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 100);
                 }
                 if (currentPlayer == 1) {
-                    var interval
                     squares[i].classList.add('taken')
                     drawPlayer("player-one", i)
                     currentPlayer = 2
@@ -168,8 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     squares[i].style.setProperty('border', '1px solid')
                 } else if (currentPlayer == 2) {
                     squares[i].classList.add('taken')
-                    currentPlayer = 1
                     drawPlayer("player-two", i)
+                    currentPlayer = 1
                     displayCurrentPlayer.innerHTML = currentPlayer
                     addGuides()
                     squares[i].style.setProperty('border', '1px solid')
