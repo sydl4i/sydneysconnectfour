@@ -77,20 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
 
     function removeTaken() {
-        //there has to be a better way to do this... ask someone : use !
+        //make the border for all squares except the bottom row
         for (let i = 0; i < squares.length; i++){ 
-            if (squares[i].classList.contains('taken')){
-            } else {
+            if (!squares[i].classList.contains('taken')){
                 squares[i].style.setProperty('border', '1px solid')
             }
     }}
 
     function addGuides() {
-        //add borders to the divs you can actually put a thing into - define each square w 2d array, identify what row and column - nested array
-        //create an array w/
-        //make a function that assigns each grid div (square) id of row-column - everytime access specific cell .documentgetElementbyId row-column
-        //iterate w documentqueryselector in each iterate over the boxes inside of those iterate each row to get each individual square 2d push all elements in 2d array
-        //use square.length - 7
+        //add borders to the divs you can actually put a thing into
         for (let i = 0; i < squares.length - 7; i++){ 
             if (squares[i+7].classList.contains('taken') &&
                 !squares[i].classList.contains('player-one') &&
@@ -133,34 +128,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    //let intervalId
-
-    // // use this later IMPORTANT
-    // function drawPlayer(rowCounter, player, i) {
-    //     //continue figuring out how to animate this
-    //     for (;rowCounter > 0; rowCounter--) {
-    //         //squares[i].classList.remove(player)
-    //         squares[i-(rowCounter*7)].classList.add(player)
-    //     }
-    //     // if (rowCounter > 0)
-    //     //     console.log(rowCounter)
-    //     //     rowCounter--
-    //     // }
-    // }
-
-    // function drawPlayer(rowCounter, player, i) {
-    //     let interval
-    //     /* ... logic ... */
-    //     squares[i-(rowCounter*7)].classList.add(player)
-    //     if(rowCounter>0) rowCounter--;
-    //     else clearInterval(interval);
-    // }
-
     removeTaken()
     addGuides()
 
+    function disableSquares() {
+        for (let i = 0; i < squares.length; i++) squares[i].style.setProperty('pointer-events', 'none')
+    }
+
+    function enableSquares() {
+        for (let i = 0; i < squares.length; i++) squares[i].style.setProperty('pointer-events', 'auto')
+    }
+    
     for (let i = 0; i < squares.length; i++){
         squares[i].onclick = () => {
+            disableSquares()
             squares[i].style.setProperty('pointer-events', 'none')
             //if the square below your current square is taken, you can go on top of it
             if (squares[i+7].classList.contains('taken')) {
@@ -175,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(rowCounter>0) rowCounter--;
                         else {
                             clearInterval(interval);
-                            squares[i].style.setProperty('pointer-events', 'auto')
+                            enableSquares()
+                            squares[i].style.setProperty('pointer-events', 'none')
                         }
                     }, 150);
                 }
@@ -185,16 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     squares[i].classList.add('taken')
                     addGuides()
                     drawPlayer("player-one", i)
-                    addGuides()
                     currentPlayer = 2
                     displayCurrentPlayer.innerHTML = currentPlayer
+                    addGuides()
                 } else if (currentPlayer == 2) {
                     removeGuides()
                     squares[i].classList.add('taken')
                     currentPlayer = 1
-                    addGuides()
                     drawPlayer("player-two", i)
                     displayCurrentPlayer.innerHTML = currentPlayer
+                    addGuides()
                 } else alert('you cant go here nananana booboo')
 
             } else alert('you cant go here nananana booboo')
