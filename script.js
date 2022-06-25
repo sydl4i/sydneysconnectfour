@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }}
 
     function addGuides() {
-        //add borders to the divs you can actually put a thing into
+        //add borders to the squares you can actually place something in
         for (let i = 0; i < squares.length - 7; i++){ 
             if (squares[i+7].classList.contains('taken') &&
                 !squares[i].classList.contains('player-one') &&
@@ -94,12 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
     }}
 
-    function removeGuides() {
-        for (let i = 0; i < squares.length - 7; i++){ 
-            if (squares[i+7].classList.contains('taken')){
-                squares[i].style.setProperty('border', '1px solid')
-            }
-    }}
+    function disableSquareInput() {
+        for (let i = 0; i < squares.length; i++) squares[i].style.setProperty('pointer-events', 'none')
+    }
+
+    function enableSquareInput() {
+        for (let i = 0; i < squares.length; i++) squares[i].style.setProperty('pointer-events', 'auto')
+    }
 
     function checkBoard() {
         for (let y = 0; y < winningArrays.length; y++) {
@@ -115,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 square4.classList.contains('player-one')
             ){
                 result.innerHTML = 'Player One Winsss woooooo #1 babyyyy'
+                disableSquareInput()
             }
             //check those squares to see if they all have the class of player-two
             if (
@@ -124,24 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 square4.classList.contains('player-two')
             ){
                 result.innerHTML = 'Player Two Winsss woooooo yeahhhhhh'
+                disableSquareInput()
             }
         }
     }
 
+
     removeTaken()
     addGuides()
-
-    function disableSquares() {
-        for (let i = 0; i < squares.length; i++) squares[i].style.setProperty('pointer-events', 'none')
-    }
-
-    function enableSquares() {
-        for (let i = 0; i < squares.length; i++) squares[i].style.setProperty('pointer-events', 'auto')
-    }
     
     for (let i = 0; i < squares.length; i++){
         squares[i].onclick = () => {
-            disableSquares()
+            disableSquareInput()
             squares[i].style.setProperty('pointer-events', 'none')
             //if the square below your current square is taken, you can go on top of it
             if (squares[i+7].classList.contains('taken')) {
@@ -156,31 +152,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(rowCounter>0) rowCounter--;
                         else {
                             clearInterval(interval);
-                            enableSquares()
+                            enableSquareInput()
+                            checkBoard()
                             squares[i].style.setProperty('pointer-events', 'none')
                         }
-                    }, 150);
+                    }, 100);
                 }
                 if (currentPlayer == 1) {
-                    removeGuides()
                     var interval
                     squares[i].classList.add('taken')
-                    addGuides()
                     drawPlayer("player-one", i)
                     currentPlayer = 2
                     displayCurrentPlayer.innerHTML = currentPlayer
                     addGuides()
+                    squares[i].style.setProperty('border', '1px solid')
                 } else if (currentPlayer == 2) {
-                    removeGuides()
                     squares[i].classList.add('taken')
                     currentPlayer = 1
                     drawPlayer("player-two", i)
                     displayCurrentPlayer.innerHTML = currentPlayer
                     addGuides()
-                } else alert('you cant go here nananana booboo')
+                    squares[i].style.setProperty('border', '1px solid')
+                }
 
-            } else alert('you cant go here nananana booboo')
-            checkBoard()
+            }
         } 
     }
 
